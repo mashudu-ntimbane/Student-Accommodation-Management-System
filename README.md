@@ -113,7 +113,7 @@ http://localhost/New%20folder/1st.html
 - **Manager**: 1 / password
 
 ## 📁 Screenshots
-**Student Home** (Room Options Slideshow):
+**Student Home** 
 ![Student Dashboard](Pictures/S%201.jpg)
 
 **Admin Analytics**:
