@@ -1,181 +1,168 @@
-# 🎓 SAMS AI Chatbot
+# Jane Mahloo Student Accommodation System
 
-> **AI-powered student query assistant for the Student Accommodation Management System**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PHP](https://img.shields.io/badge/PHP-7.4+-blue.svg)](https://www.php.net/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-purple.svg)](https://www.postgresql.org/)
 
-An NLP chatbot built with DistilBERT and Flask that classifies student queries into structured intents and returns contextual responses — integrated with a PHP backend via REST API.
+## 🚀 Live Demo
+**Landing Page**: [1st.html](1st.html) - Showcases accommodation for NSFAS/UL students with slideshow, features (safe, furnished, near campus), requirements (ID, registration proof, NSFAS funding).
 
----
+## 🎯 Project Overview
+**Jane Mahloo Student Accommodation** is a **full-stack web application** for managing student housing at University of Limpopo (UL). It handles room applications, document verification, payments, ratings, announcements, and admin management.
 
-## 📌 Project Overview
+### Key Features
 
-| Component | Technology |
-|---|---|
-| NLP Model | DistilBERT (fine-tuned) |
-| API Server | Flask / FastAPI (Python) |
-| Backend Integration | PHP + cURL |
-| Frontend Widget | HTML + Vanilla JavaScript |
-| Training Environment | Google Colab (GPU) |
+#### **Student Dashboard** (`student_dashboard.php`)
+- **Room Applications**: Apply for Room Option 1 (R4500, ground/1st floor) or Option 2 (R4000, 2nd/3rd floor). View availability stats.
+  ```php
+  // Room stats query example
+  $count_sql = "SELECT COUNT(*) as available FROM room_option_1 WHERE floor_number = $1 AND occupied = 'no'";
+  ```
+- **Profile Management**: Edit details, upload profile picture (`Pictures/student_[ID].jpg`).
+- **Supporting Documents**: Upload ID/PoR/PoF as PDF (`table/[ID]_[TYPE].pdf`).
+- **NSFAS Payment Status**: Track paid/outstanding.
+- **Announcements**: View residence updates, mark as read (`student_announcement_views`).
+- **Residence Ratings**: Submit 1-5 stars + comments per semester (`residence_ratings` table). Overall avg displayed.
+- **Modern UI**: Image slideshows, responsive sidebar navigation.
 
-**Intents handled:**
-- `payment_query` — rent, fees, payment methods
-- `rules_query` — smoking, noise, appliances, curfew
-- `visitor_policy` — guest registration, visiting hours
-- `application_status` — tracking, appeals, waiting lists
-- `general_enquiry` — greetings, general help
+#### **Admin Dashboard** (`admin_dashboard.php`)
+- **Dashboard Analytics**: Cards for students/payments/visitors/applications/registrations/rooms/announcements.
+  - Charts: Payment pie (paid/outstanding), announcement viewers.
+  - Recent ratings widget (like Google reviews).
+- **Students Management**: View registered/all students, unblock accounts.
+- **Applications**: Review/update status (Pending→Approved→Registered/Cancelled).
+- **Visitors**: Log in/out times.
+- **Payments**: Track NSFAS paid/outstanding students.
+- **Announcements**: Create/post to registered students.
 
----
+#### **Authentication** (`login.php` / `signup.html`)
+- **Student Signup**: Strict validation (9-digit ID, names letters-only, SA phone 0xxxxxxxx, strong PW).
+- **Dual Login**: Student/Manager with attempt locking.
+- **Password Reset**: 6-digit PIN email verification.
 
-## 🚀 Quick Start
+#### **Backend & Database**
+- **PostgreSQL** (`NewDbConn.php`): Tables for `student`, `applications`, `residence_manager`, `payment`, `Visitor`, `residence_ratings`, `announcements`, `supporting_documents`.
+- **Security**: Prepared statements (`pg_query_params`), password_hash, session auth, file upload validation (PDF<1MB).
 
-### 1. Install dependencies
+## 🏗️ Tech Stack
+```
+Frontend: HTML5/CSS3/JS, FontAwesome, Chart.js
+Backend: PHP 7.4+
+Database: PostgreSQL 13+
+Hosting: XAMPP (Apache/MySQL ready, but uses PG)
+AI/ML: SAMS Chatbot (Chatbot/ folder), Payment Risk Prediction (Model/)
+```
+**SAMS Chatbot**: Integrated on landing page - handles payments/rules/visitors/applications.
+
+## 🚀 Quick Start (Local)
+
+### 1. Prerequisites
+```
+- XAMPP (Apache + PostgreSQL)
+- PHP 7.4+
+- Composer (optional for deps)
+```
+
+### 2. PostgreSQL Setup
 ```bash
-pip install transformers torch scikit-learn flask flask-cors accelerate seaborn
+# Create DB & tables (SQL/ folder)
+psql -U postgres -f SQL/Jane_Maahlo.sql
+# Insert test data
+psql -d Jane_Maahlo -f SQL/insert_students.sql
+psql -d Jane_Maahlo -f SQL/Residence_manager.sql
 ```
 
-### 2. Train the model (Google Colab recommended)
-```bash
-# Upload to Colab and run
-python 01_dataset_and_training.py
+Update `NewDbConn.php`:
+```php
+$connection = pg_connect("host=localhost dbname=Jane_Maahlo user=postgres password='YOUR_PASS'");
 ```
 
-### 3. Start the API server
-```bash
-python 02_api_server.py
-# API available at http://localhost:5000/chat
+### 3. File Structure
+```
+c:/xampp/htdocs/New folder/
+├── 1st.html (Landing)
+├── signup.html + signup.php
+├── login.php
+├── student_dashboard.php
+├── admin_dashboard.php
+├── Pictures/ (Room images/profiles)
+├── table/ (Student docs PDFs)
+├── Chatbot/ (SAMS AI Assistant)
+├── SQL/ (DB Schema)
+└── Model/ (ML Payment Prediction)
 ```
 
-### 4. Test with curl
-```bash
-curl -X POST http://localhost:5000/chat \
-     -H "Content-Type: application/json" \
-     -d '{"message": "How do I pay my rent?"}'
+### 4. Run
+```
+# htdocs/New folder/
+http://localhost/New%20folder/1st.html
 ```
 
-Expected response:
-```json
-{
-  "success": true,
-  "intent": "payment_query",
-  "confidence": 0.9821,
-  "response": "Rent is due on the 1st of each month...",
-  "method": "keyword"
-}
+**Default Login**:
+- **Student**: 123456789 / password
+- **Manager**: 1 / password
+
+## 📁 Screenshots
+**Student Home** (Room Options Slideshow):
+![Student Dashboard](Pictures/S%201.jpg)
+
+**Admin Analytics**:
+- Payment pie chart, ratings widget, room availability.
+
+**Ratings System**:
+```
+Overall: 4.2/5 (127 reviews)
+Semester filter: 1st/2nd
 ```
 
-### 5. PHP Integration
-Update `CHATBOT_API_URL` in `03_php_integration.php` and include the chat widget in any SAMS page.
+## 🛠️ Room Details
+| Option | Price | Floors | Features |
+|--------|-------|--------|----------|
+| 1 | R4500 | 0-1 | Bed, desk, wardrobe, shared kitchen/toilets/elevator |
+| 2 | R4000 | 2-3 | Same amenities |
 
----
+**Application Flow**: Apply → Admin Approve → Upload Docs → Pay NSFAS → Register Room.
 
-## 🗂️ Project Structure
+## 🤖 AI Features
+1. **SAMS Chatbot**: Live on landing (`Chatbot/chat_endpoint.php`) - Answers via local ML model.
+2. **Payment Risk ML**: Predicts default risk (`Model/SAMS_Payment_Risk_Prediction.py`).
 
-```
-sams_chatbot/
-├── 01_dataset_and_training.py    # Dataset creation + DistilBERT training
-├── 02_api_server.py              # Flask API + hybrid chatbot logic
-├── 03_php_integration.php        # PHP cURL proxy + chat widget HTML/JS
-├── SAMS_Chatbot_Complete.ipynb  # Google Colab notebook (all-in-one)
-├── sams_chatbot_model/           # Saved model (generated after training)
-│   ├── config.json
-│   ├── pytorch_model.bin
-│   ├── tokenizer_config.json
-│   ├── label_mapping.json
-│   └── responses.json
-└── query_log.jsonl               # Auto-generated query log for retraining
-```
-
----
-
-## 🏗️ Architecture
-
-```
-Student Browser
-      │  (JS fetch)
-      ▼
-PHP Controller (chat_endpoint.php)
-      │  (cURL POST /chat)
-      ▼
-Flask API (Python · port 5000)
-      │
-      ├── Keyword Matcher (fast, rule-based)
-      └── DistilBERT Classifier (ML fallback)
-              │
-              ▼
-        Response Mapper → JSON response
+## 📈 Database Schema (Key Tables)
+```sql
+student(student_number PK, fname, password, blocked)
+applications(application_id PK, student_number, status)
+residence_ratings(id PK, stars, comment, semester)
+payment(student_number PK, payment_date)
+announcements(announcement_id PK, manager_id, title, content)
+supporting_documents(document_id PK, student_number, document_type, file_path)
 ```
 
----
+## 🔒 Security
+- SQL injection: `pg_query_params`
+- File uploads: PDF-only, size-limit, safe names
+- Auth: PHP sessions + hash_verify + brute-force lock
+- XSS: `htmlspecialchars()`
 
-## 🤖 Model Details
+## 📱 Responsive
+- Mobile-first: Sidebar collapses, charts responsive.
 
-| Property | Value |
-|---|---|
-| Base model | `distilbert-base-uncased` |
-| Task | Multi-class intent classification |
-| Classes | 5 intents |
-| Max sequence length | 64 tokens |
-| Training epochs | 10 |
-| Optimizer | AdamW (lr=2e-5, weight_decay=0.01) |
-| Dataset size | ~100 synthetic examples |
-
-**Hybrid approach:** The system first tries keyword matching (fast, ~0ms). If no keyword matches, DistilBERT classifies the intent. If confidence < 60%, a graceful fallback response is shown.
-
----
-
-## 📊 Evaluation
-
-After training you should see metrics like:
-
-```
-              precision  recall  f1-score  support
-payment_query      0.95    1.00      0.97        4
-rules_query        1.00    0.75      0.86        4
-visitor_policy     1.00    1.00      1.00        4
-application_status 1.00    1.00      1.00        4
-general_enquiry    0.80    1.00      0.89        4
-
-accuracy                             0.95       20
-```
-
----
-
-## ⚡ Deployment Options
-
-| Option | Cost | Best for |
-|---|---|---|
-| **Local** (localhost) | Free | Development |
-| **ngrok** | Free tier | Demos |
-| **Railway.app** | Free tier | Small production |
-| **Render.com** | Free tier | Persistent hosting |
-| **AWS EC2 t3.micro** | ~$8/mo | Scalable production |
-
-### Deploy to Render
-1. Push this repo to GitHub
-2. Connect at render.com → New Web Service
-3. Build command: `pip install -r requirements.txt`
-4. Start command: `python 02_api_server.py`
-
----
-
-## 🌍 Bonus: Improvements for v2
-
-- **Multilingual support** — use `xlm-roberta-base` instead of DistilBERT to support Zulu, Afrikaans, Sotho, etc.
-- **LLM API fallback** — when confidence < threshold, route to Claude or GPT for open-ended responses
-- **Active learning** — export `query_log.jsonl`, label the `unknown` queries, and add them to training data
-- **Conversation memory** — store session history for multi-turn conversations
-- **Admin dashboard** — visualise intent frequencies from the query log
-
----
-
-## 💼 Portfolio Presentation Tips
-
-**GitHub README:** Add a GIF demo of the chat widget in action.  
-**CV description:** *"Built an NLP intent classification chatbot using DistilBERT, integrated via REST API into a PHP accommodation management system, achieving 95%+ accuracy on a 5-class dataset."*  
-**Live demo:** Deploy on Render and link from portfolio site.  
-**Key skills demonstrated:** NLP · Transfer learning · REST API design · PHP/Python integration · Model evaluation · System design
-
----
+## 🤝 Contributing
+1. Fork repo
+2. `git checkout -b feature/xyz`
+3. Commit & PR to `main`
 
 ## 📄 License
+MIT - Free for educational/portfolio use.
 
-MIT — free to use and extend for your SAMS project.
+## 🙏 Acknowledgments
+Built for University of Limpopo (UL) NSFAS students.
+Inspired by modern hostel management systems.
+
+**⭐ Star if helpful! 🚀**
+
+---
+**Live Features**:
+- [ ] Payment gateway integration
+- [ ] Visitor QR check-in
+- [ ] Mobile PWA
+
