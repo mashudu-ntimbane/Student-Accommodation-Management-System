@@ -4,15 +4,12 @@
 [![PHP](https://img.shields.io/badge/PHP-7.4+-blue.svg)](https://www.php.net/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13+-purple.svg)](https://www.postgresql.org/)
 
-## 🚀 Live Demo
-**Landing Page**: [1st.html](1st.html) - Showcases accommodation for NSFAS/UL students with slideshow, features (safe, furnished, near campus), requirements (ID, registration proof, NSFAS funding).
-
 ## 🎯 Project Overview
-**Jane Mahloo Student Accommodation** is a **full-stack web application** for managing student housing at University of Limpopo (UL). It handles room applications, document verification, payments, ratings, announcements, and admin management.
+**Jarrelix Student Accommodation** is a **full-stack web application** for managing student housing at any university. It handles room applications, document verification, payments, ratings, announcements, and admin management.
 
 ## 💡 Problems & Solutions
 
-| **Problem** | **Traditional Manual Process** | **Jane Mahloo Solution** |
+| **Problem** | **Traditional Manual Process** | **Jarrelix Solution** |
 |-------------|--------------------------------|--------------------------|
 | **Room Allocation Conflicts** | Manual paper forms, no real-time availability, double-booking | Automated applications w/ live room stats per floor/option (`student_dashboard.php`), status workflow (Pending→Approved→Registered/Cancelled) (`application_process.php`) |
 | **NSFAS Payment Verification** | Manual receipt checking, no tracking | Payment logging (`add_payment.php`), status tracking (Paid/Outstanding), admin dashboard pie charts (`admin_dashboard.php`) |
@@ -164,11 +161,8 @@ supporting_documents(document_id PK, student_number, document_type, file_path)
 2. `git checkout -b feature/xyz`
 3. Commit & PR to `main`
 
-## 📄 License
-MIT - Free for educational/portfolio use.
-
 ## 🙏 Acknowledgments
-Built for University of Limpopo (UL) NSFAS students.
+Built for University students that uses NSFAS.
 Inspired by modern hostel management systems.
 
 **⭐ Star if helpful! 🚀**
