@@ -27,7 +27,11 @@ sams_ml/
 
 # Payment Risk Machine Learning Model
 ## Overview
-<img width="349" height="328" alt="Capture" src="https://github.com/user-attachments/assets/b907adeb-5b16-42b8-b44f-40b83862c122" />
+<img width="942" height="432" alt="Capture" src="https://github.com/user-attachments/assets/971ae471-a809-42d9-a78d-53b2fb4911a5" />
+<img width="944" height="431" alt="Capture4" src="https://github.com/user-attachments/assets/553d9b3d-0b37-4c3f-8d3f-177ba0aafa8a" />
+<img width="944" height="428" alt="Capture3" src="https://github.com/user-attachments/assets/f71f70fa-2e51-486f-9ca6-c2b938a9fd07" />
+<img width="940" height="427" alt="Capture2" src="https://github.com/user-attachments/assets/a79bef87-0786-4da2-82d6-77025ccef1e3" />
+
 
 
 ---
