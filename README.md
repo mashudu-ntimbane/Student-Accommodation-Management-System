@@ -10,6 +10,19 @@
 ## 🎯 Project Overview
 **Jane Mahloo Student Accommodation** is a **full-stack web application** for managing student housing at University of Limpopo (UL). It handles room applications, document verification, payments, ratings, announcements, and admin management.
 
+## 💡 Problems & Solutions
+
+| **Problem** | **Traditional Manual Process** | **Jane Mahloo Solution** |
+|-------------|--------------------------------|--------------------------|
+| **Room Allocation Conflicts** | Manual paper forms, no real-time availability, double-booking | Automated applications w/ live room stats per floor/option (`student_dashboard.php`), status workflow (Pending→Approved→Registered/Cancelled) (`application_process.php`) |
+| **NSFAS Payment Verification** | Manual receipt checking, no tracking | Payment logging (`add_payment.php`), status tracking (Paid/Outstanding), admin dashboard pie charts (`admin_dashboard.php`) |
+| **Document Verification Delays** | Physical submission, lost docs | Secure PDF uploads (ID/PoR/PoF <1MB to `table/`) (`student_dashboard.php`), admin review |
+| **Poor Communication** | Notice boards, missed updates | Manager→registered students announcements w/ individual view tracking (`student_announcement_views`) |
+| **No Feedback System** | No structured ratings | Semester-based 1-5★ ratings + comments (`residence_ratings`), overall avg + recent widget |
+| **Security & Access Issues** | Weak auth, no blocking | Strict signup validation (`signup.php`), dual-role login w/ brute-force block/reset (`login.php`) |
+| **Visitor Management** | Manual logbook | Digital in/out timestamps per student (`Visitor` table, `admin_dashboard.php`) |
+| **Admin Oversight** | Spreadsheets, no analytics | Unified dashboard w/ cards/charts/search/pagination (`admin_dashboard.php`) |
+
 ### Key Features
 
 #### **Student Dashboard** (`student_dashboard.php`)
