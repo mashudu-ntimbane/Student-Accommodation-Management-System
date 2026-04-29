@@ -1,4 +1,4 @@
-# Jane Mahloo Student Accommodation System
+# Jarrelix Student Accommodation System
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PHP](https://img.shields.io/badge/PHP-7.4+-blue.svg)](https://www.php.net/)
