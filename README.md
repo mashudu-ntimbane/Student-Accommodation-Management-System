@@ -1,6 +1,6 @@
 
 # SAMS — Payment Risk Prediction Model
-### Student Accommodation Management System · ML Project Guide
+### Student Accommodation Management System (SAMS) · ML Project Guide
 
 ---
 
